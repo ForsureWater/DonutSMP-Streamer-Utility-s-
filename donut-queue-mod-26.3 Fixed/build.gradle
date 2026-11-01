@@ -1,0 +1,50 @@
+plugins {
+	id 'net.fabricmc.fabric-loom' version '1.19-SNAPSHOT'
+	id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+	archivesName = project.archives_base_name
+}
+
+repositories {
+	mavenCentral()
+	maven { url = "https://maven.terraformersmc.com/releases/" }
+}
+
+dependencies {
+	// 26.1 is unobfuscated: no mappings line, and plain implementation / compileOnly.
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	// Optional integration: only used to build a config screen if the
+	// player has Mod Menu installed. Not required at runtime.
+	compileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+
+	// Plain (non-Fabric) Java libraries for decoding/playing the bundled
+	// celebration MP3 through javax.sound.sampled. include(...) bundles
+	// them directly into the built mod jar.
+	include(implementation("com.googlecode.soundlibs:mp3spi:1.9.5.4"))
+	include(implementation("com.googlecode.soundlibs:jlayer:1.0.1.4"))
+	include(implementation("com.googlecode.soundlibs:tritonus-share:0.3.7.4"))
+}
+
+processResources {
+	inputs.property "version", project.version
+	filesMatching("fabric.mod.json") {
+		expand "version": project.version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 25
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
+}

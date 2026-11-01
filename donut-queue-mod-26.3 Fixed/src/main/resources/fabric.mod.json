@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "donutqueue",
+  "version": "${version}",
+  "name": "DonutSMP Streamer Utility's",
+  "description": "Automatically tracks DonutSMP payments in a queue, shows who's first on a HUD box with the amount they paid, and advances the line after two lever flicks.",
+  "authors": ["Forsurewater"],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/donutqueue/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.example.donutqueue.DonutQueueClient"
+    ],
+    "modmenu": [
+      "com.example.donutqueue.ModMenuIntegration"
+    ]
+  },
+  "mixins": ["donutqueue.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.20.1",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  },
+  "recommends": {
+    "modmenu": "*"
+  }
+}
